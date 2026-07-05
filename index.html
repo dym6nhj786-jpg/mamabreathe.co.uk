@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inhale Mama — Calm breathing for labour</title>
+<meta name="description" content="Inhale Mama is a calm labour preparation app with guided breathing, pelvic floor exercises, affirmations, and a labour surge tracker.">
+<style>
+  :root {
+    --rose: #BE6E95;
+    --dark-rose: #72243E;
+    --blush: #EED6E0;
+    --sage: #7BAE8C;
+    --bg: #FAF3F0;
+    --white: #FFFFFF;
+    --text: #3a2030;
+    --muted: #9a7080;
+    --border: #E4ADC8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,243,240,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .nav-logo {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    color: var(--dark-rose);
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 24px; list-style: none; }
+  .nav-links a {
+    font-size: 13px; color: var(--muted);
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--rose); }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 80px 24px 64px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .hero-icon {
+    width: 80px; height: 80px;
+    background: var(--blush);
+    border-radius: 22px;
+    margin: 0 auto 24px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero h1 {
+    font-family: Georgia, serif;
+    font-size: 42px;
+    color: var(--dark-rose);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .hero p {
+    font-size: 17px;
+    color: var(--muted);
+    font-style: italic;
+    font-family: Georgia, serif;
+    margin-bottom: 32px;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--rose);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  /* SECTIONS */
+  section {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 24px;
+    border-top: 0.5px solid var(--border);
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 10px;
+  }
+  section h2 {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    color: var(--dark-rose);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  section p {
+    color: var(--text);
+    margin-bottom: 14px;
+    font-size: 15px;
+  }
+  section p:last-child { margin-bottom: 0; }
+
+  /* LEGAL CONTENT */
+  .legal-content h3 {
+    font-family: Georgia, serif;
+    font-size: 17px;
+    color: var(--dark-rose);
+    margin: 28px 0 8px;
+  }
+  .legal-content h3:first-child { margin-top: 0; }
+  .legal-content p {
+    font-size: 14.5px;
+    color: #5a4050;
+    margin-bottom: 12px;
+    line-height: 1.75;
+  }
+  .legal-content ul {
+    margin: 8px 0 14px 20px;
+    font-size: 14.5px;
+    color: #5a4050;
+  }
+  .legal-content ul li { margin-bottom: 6px; line-height: 1.65; }
+  .legal-meta {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  /* SUPPORT CARD */
+  .support-card {
+    background: var(--white);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-top: 24px;
+    text-align: center;
+  }
+  .support-card h3 {
+    font-family: Georgia, serif;
+    font-size: 20px;
+    color: var(--dark-rose);
+    margin-bottom: 8px;
+  }
+  .support-card p { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+  .support-card a.email-btn {
+    display: inline-block;
+    background: var(--rose);
+    color: white;
+    padding: 11px 24px;
+    border-radius: 24px;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .support-card .email-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 12px;
+    margin-bottom: 0;
+  }
+
+  /* DATA CARD */
+  .data-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .data-row:last-child { border-bottom: none; }
+  .data-icon {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .data-icon.green { background: #E1F5EE; }
+  .data-icon.blush { background: var(--blush); }
+  .data-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .data-desc { font-size: 13px; color: var(--muted); line-height: 1.55; margin-bottom: 0; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 0.5px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  footer p { margin-bottom: 6px; }
+  footer a { color: var(--rose); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 30px; }
+    .nav-links { display: none; }
+    nav { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#home">Inhale Mama</a>
+  <ul class="nav-links">
+    <li><a href="#privacy">Privacy Policy</a></li>
+    <li><a href="#data">Data</a></li>
+    <li><a href="#support">Support</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="home" class="hero">
+  <div class="hero-icon">
+    <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+      <g transform="translate(23,20)">
+        <ellipse cx="0" cy="-9" rx="3.2" ry="7" fill="#E4ADC8" opacity=".88"/>
+        <ellipse cx="0" cy="-9" rx="3.2" ry="7" fill="#E4ADC8" opacity=".88" transform="rotate(45)"/>
+        <ellipse cx="0" cy="-9" rx="3.2" ry="7" fill="#E4ADC8" opacity=".88" transform="rotate(90)"/>
+        <ellipse cx="0" cy="-9" rx="3.2" ry="7" fill="#E4ADC8" opacity=".88" transform="rotate(135)"/>
+        <ellipse cx="0" cy="-9" rx="3.2" ry="7" fill="#E4ADC8" opacity=".88" transform="rotate(180)"/>
+        <ellipse cx="0" cy="-9" rx="3.2" ry="7" fill="#E4ADC8" opacity=".88" transform="rotate(225)"/>
+        <ellipse cx="0" cy="-9" rx="3.2" ry="7" fill="#E4ADC8" opacity=".88" transform="rotate(270)"/>
+        <ellipse cx="0" cy="-9" rx="3.2" ry="7" fill="#E4ADC8" opacity=".88" transform="rotate(315)"/>
+        <circle cx="0" cy="0" r="5.5" fill="#BE6E95"/>
+        <circle cx="0" cy="0" r="3.6" fill="#EED6E0"/>
+        <circle cx="1" cy="-0.8" r="2.7" fill="#BE6E95"/>
+        <circle cx="0" cy="0" r="1.2" fill="#EED6E0"/>
+        <path d="M-11 10 Q-5.5 6.5 0 10 Q5.5 13.5 11 10" stroke="#7BAE8C" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </div>
+  <h1>Inhale Mama</h1>
+  <p>Calm breathing for labour</p>
+  <a href="https://apps.apple.com/app/inhale-mama" class="hero-badge">Download on the App Store</a>
+</div>
+
+<!-- PRIVACY POLICY -->
+<section id="privacy">
+  <p class="section-label">Legal</p>
+  <h2>Privacy Policy</h2>
+  <div class="legal-content">
+    <p class="legal-meta">Effective: 25 May 2026 &nbsp;·&nbsp; Version 1.0</p>
+
+    <p>Your privacy matters to us. Inhale Mama is designed with privacy by default — the App collects no personal data, requires no account registration, and does not transmit any user-generated content to external servers.</p>
+
+    <h3>1. Information we collect</h3>
+    <p><strong>Information you provide:</strong> Inhale Mama does not request or require any personal information — no name, email address, date of birth, or phone number.</p>
+    <p>The only user-generated content in the App is Custom Affirmations (available to premium users). These are stored exclusively on your device using local storage and are never transmitted to our servers or any third party.</p>
+
+    <p><strong>Information stored locally on your device:</strong> The following data is stored on your device only and remains entirely private:</p>
+    <ul>
+      <li>Your premium unlock status</li>
+      <li>Labour surge session data (start/end times, duration, gap, sensation level, notes)</li>
+      <li>Custom affirmations you have created</li>
+      <li>App preferences and settings</li>
+    </ul>
+    <p>This data is not transmitted to any server. It is deleted if you uninstall the App or clear your device storage.</p>
+
+    <p><strong>Purchase information:</strong> If you purchase the 1-Year Access, the transaction is processed by Apple. We use RevenueCat to manage and verify in-app purchase entitlements. RevenueCat receives an anonymous identifier associated with your App Store account — not your name, email, or payment details. We do not store or process your payment information.</p>
+    <p>RevenueCat Privacy Policy: <a href="https://www.revenuecat.com/privacy" style="color:#BE6E95;">revenuecat.com/privacy</a></p>
+
+    <h3>2. Information we do not collect</h3>
+    <p>Inhale Mama does not collect, store, or process any of the following:</p>
+    <ul>
+      <li>Your name, email address, or contact information</li>
+      <li>Location or GPS data</li>
+      <li>Health data or medical records</li>
+      <li>Device contacts, calendar, camera, or microphone data</li>
+      <li>Crash reports or analytics data</li>
+      <li>Advertising identifiers or tracking data</li>
+    </ul>
+    <p>Inhale Mama contains no advertising and uses no advertising SDKs or tracking pixels.</p>
+
+    <h3>3. Third-party services</h3>
+    <p><strong>RevenueCat</strong> is used solely to manage in-app purchase entitlements. It may hold a pseudonymous identifier and your purchase receipt. It does not receive your name, email, or payment card details. See <a href="https://www.revenuecat.com/privacy" style="color:#BE6E95;">revenuecat.com/privacy</a>.</p>
+    <p><strong>Apple App Store</strong> may collect data about your download and usage per their own privacy policy. We do not control or have access to this data. See <a href="https://www.apple.com/legal/privacy/" style="color:#BE6E95;">apple.com/legal/privacy</a>.</p>
+
+    <h3>4. Children's privacy</h3>
+    <p>Inhale Mama is not directed at children under 13. As the App collects no personal data, there is no specific risk to children's privacy from App use.</p>
+
+    <h3>5. Data security</h3>
+    <p>All App data is stored locally using your device's standard storage. We recommend using your device's built-in security features (passcode, Face ID, fingerprint). Purchase entitlements are managed by RevenueCat, which is SOC 2 Type II certified.</p>
+
+    <h3>6. Data retention</h3>
+    <ul>
+      <li>All local data persists until you uninstall the App, clear App data, or delete it within the App</li>
+      <li>Uninstalling removes all locally stored data including surge history and custom affirmations</li>
+      <li>Your purchase entitlement can be restored after reinstalling via "Restore purchase"</li>
+    </ul>
+
+    <h3>7. Your rights (UK GDPR)</h3>
+    <p>Under the UK General Data Protection Regulation and the Data Protection Act 2018, you have the right to access, rectify, erase, or restrict processing of your personal data. As Inhale Mama collects no personal data, most of these rights are not applicable in practice. You may also lodge a complaint with the Information Commissioner's Office at <a href="https://ico.org.uk" style="color:#BE6E95;">ico.org.uk</a>.</p>
+
+    <h3>8. Changes to this policy</h3>
+    <p>We may update this Privacy Policy from time to time. When we make material changes, we will update the effective date above.</p>
+
+    <h3>9. Contact us</h3>
+    <p>For privacy questions: <a href="mailto:hello@mamabreathe.co.uk" style="color:#BE6E95;">hello@mamabreathe.co.uk</a></p>
+    <p>We will respond to all privacy enquiries within 30 days.</p>
+  </div>
+</section>
+
+<!-- DATA COLLECTION -->
+<section id="data">
+  <p class="section-label">Transparency</p>
+  <h2>Data collection</h2>
+  <p>Inhale Mama is built with privacy by default. Here is a plain-English summary of exactly what is and is not collected.</p>
+
+  <div style="margin-top:20px;">
+    <div class="data-row">
+      <div class="data-icon green">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <p class="data-title">Breathing exercises &amp; pelvic floor sessions</p>
+        <p class="data-desc">Used only in-session on your device. Nothing is transmitted or stored externally.</p>
+      </div>
+    </div>
+    <div class="data-row">
+      <div class="data-icon green">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <p class="data-title">Labour surge log &amp; notes</p>
+        <p class="data-desc">Stored locally on your device only. Never transmitted to any server. Deleted when you uninstall the app.</p>
+      </div>
+    </div>
+    <div class="data-row">
+      <div class="data-icon green">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <p class="data-title">Custom affirmations</p>
+        <p class="data-desc">Written by you, stored on your device only. We cannot read, access, or store your affirmations.</p>
+      </div>
+    </div>
+    <div class="data-row">
+      <div class="data-icon green">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <p class="data-title">In-app purchase</p>
+        <p class="data-desc">Processed by Apple. We use RevenueCat to verify your entitlement using an anonymous ID only — no name, email, or payment details are stored by us.</p>
+      </div>
+    </div>
+    <div class="data-row">
+      <div class="data-icon blush">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#72243E" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+      <div>
+        <p class="data-title">No advertising</p>
+        <p class="data-desc">Inhale Mama contains no ads and uses no advertising SDKs, tracking pixels, or analytics platforms.</p>
+      </div>
+    </div>
+    <div class="data-row">
+      <div class="data-icon blush">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#72243E" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+      <div>
+        <p class="data-title">No location, camera, or microphone access</p>
+        <p class="data-desc">The app does not request or use any device sensors.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section id="support">
+  <p class="section-label">Help</p>
+  <h2>Support</h2>
+  <p>We'd love to hear from you — whether you have a question, found something that isn't working, or have an idea that would make Inhale Mama better for every family.</p>
+  <div class="support-card">
+    <h3>Get in touch</h3>
+    <p>Send us an email and we'll get back to you as soon as we can.</p>
+    <a href="mailto:hello@mamabreathe.co.uk?subject=Inhale%20Mama%20support" class="email-btn">hello@mamabreathe.co.uk</a>
+    <p class="email-note">We aim to respond within 2 business days.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Made with love for every family · <a href="mailto:hello@mamabreathe.co.uk">hello@mamabreathe.co.uk</a></p>
+  <p style="margin-top:8px;">© 2026 Inhale Mama. All rights reserved.</p>
+  <p style="margin-top:8px;">
+    <a href="#privacy">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="#data">Data Collection</a> &nbsp;·&nbsp;
+    <a href="#support">Support</a>
+  </p>
+</footer>
+
+</body>
+</html>
